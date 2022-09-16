@@ -1,7 +1,7 @@
-import React, {useEffect} from 'react';
-import logo from './logo.svg';
-import { Counter } from './features/counter/Counter';
+import React, {useState, useEffect} from 'react';
+import ControlledModal from './components/LayoutComponents/ControlledModal';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import List from './components/LayoutComponents/List'
 import ProjectCard from './components/Projects/ProjectCard'
 import './App.css';
@@ -82,9 +82,34 @@ function App() {
   useEffect(() => {
       console.log("Projects ",projects)
   },[])
+
+  const [shouldShowModal, setShouldShowModal] = useState(false)
+
   return (
-    <div className="App">
-      <h1>App</h1> 
+    <Box sx={{bgcolor: '#659DBD', height: '100vh', overflow: 'auto', textAlign: 'center',}}>
+      <Box sx={{ mb: 4, color: '#ffff'}}>
+        <h1>Useful Components</h1> 
+
+        {/* 
+          Controlled Modal ------------
+          shouldShow: boolean passed on whether or not to show the modal
+          onRequestClose: function passed to close or interact with the modal once it is open
+          children: Anything between the <ControlledModal></ControlledModal> tags will be apart
+          of the children prop that gets added to the modal making it dynamic
+        */}
+        <ControlledModal shouldShow={shouldShowModal} onRequestClose={() => {
+          setShouldShowModal(false)
+        }}>
+          <h1>Test Heading</h1>
+          <Box>
+            <p>Hello World!</p>
+            <p>Test</p>
+          </Box>
+        </ControlledModal>
+        <Button variant="contained" onClick={() => setShouldShowModal(!shouldShowModal)}>Show Modal</Button>
+
+      </Box>
+      
       {/* 
         items: prop is an array that is to be iterated over
         resourceName: prop of the list item that is getting passed
@@ -93,7 +118,8 @@ function App() {
       <Box sx={{display: 'flex', justifyContent: 'space-between', ml: 8, mr: 8}}>
         <List items={projects} resourceName="project" ItemComponent={ProjectCard} />
       </Box>
-    </div>
+      
+    </Box>
   );
 }
 
