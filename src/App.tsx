@@ -190,6 +190,16 @@ function App() {
       </Box>
 
       <Box sx={{mt:4}}>
+        {/* 
+          currentIndex: the index in the array of children. Keeps track of what form the user is on
+          
+          onNext: a function that is defined in the parent, allowing the user to move to the next form and store data
+          this function can be defined uniquely for each FormFlow
+
+          completedFlow: a function that is passed into a useEffect hook in FormFlow to dictate when the form flow has been
+          completed. On completion, the user can decide what to do with the data. In this app I utilize it in the App.js useEffect
+          hook
+        */}
         <FormFlow currentIndex={currentIndex} onNext={onNext} completedFlow={()=>setCompletedFlow(true)}>
           <StepOne goToNext={() => null}/>
           <StepTwo goToNext={() => null}/>
