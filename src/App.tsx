@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import ControlledModal from './components/LayoutComponents/ControlledModal';
+import FormFlow from './components/FormComponents/FormFlow';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import List from './components/LayoutComponents/List'
 import ProjectCard from './components/Projects/ProjectCard'
 import './App.css';
+import { Typography } from '@mui/material';
 
 const projects = [
   {
@@ -78,16 +80,82 @@ const projects = [
   }
 ]
 
-function App() {
-  useEffect(() => {
-      console.log("Projects ",projects)
-  },[])
+// Psuedo info for Form Flow
+const StepOne = ({goToNext}:{goToNext: any}) => (
+  <>
+    <Typography variant="h3" component="div">
+      Step 1
+    </Typography>
+    <Button onClick={() => goToNext({name: 'John Doe'})}>Next</Button>
+  </>
+)
 
+const StepTwo = ({goToNext}:{goToNext: any}) => (
+  <>
+    <Typography variant="h3" component="div">
+      Step 2
+    </Typography>
+    <Button onClick={() => goToNext({age: 100})}>Next</Button>
+  </>
+)
+
+const StepThree = ({goToNext}:{goToNext: any}) => (
+  <>
+    <Typography variant="h3" component="div">
+      Congrats, you are old enough!
+    </Typography>
+    <Button onClick={() => goToNext({})}>Next</Button>
+  </>
+)
+
+const StepFour = ({goToNext}:{goToNext: any}) => (
+  <>
+    <Typography variant="h3" component="div">
+      Step 4
+    </Typography>
+    <Button onClick={() => goToNext({})}>Next</Button>
+  </>
+)
+
+function App() {
+
+  // Modal State
   const [shouldShowModal, setShouldShowModal] = useState(false)
+
+  // Flow Form State
+  const [formFlowData, setFormFlowData] = useState<{name: string, age: number, eyeColor: string}>({name:'', age:0, eyeColor: 'blue'})
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [completedFlow, setCompletedFlow] = useState(false)
+
+  useEffect(() => {
+      if(completedFlow) {
+        onFinal()
+        setCompletedFlow(false)
+      }
+      
+  },[completedFlow])
+
+  // Flow Form indexing and form data handling
+  const onNext = (stepData:any) => {
+    setFormFlowData({...formFlowData, ...stepData})
+    setCurrentIndex(currentIndex + 1)
+  }
+
+  // Flow Form submission. Add any submission actions in the onFinal event handler
+  const onFinal = () => {
+    alert(`You have completed the form! \nName: ${formFlowData.name} \nAge: ${formFlowData.age} \nEye-Color: ${formFlowData.eyeColor}`)
+
+    setTimeout(()=>{
+      alert('resetting the form')
+      setCurrentIndex(0)
+    },3000)
+  }
+
+  console.log("Completed Flow ", completedFlow)
 
   return (
     <Box sx={{bgcolor: '#659DBD', height: '100vh', overflow: 'auto', textAlign: 'center',}}>
-      <Box sx={{ mb: 4, color: '#ffff'}}>
+      <Box sx={{ mb: 4, }}>
         <h1>Useful Components</h1> 
 
         {/* 
@@ -100,10 +168,10 @@ function App() {
         <ControlledModal shouldShow={shouldShowModal} onRequestClose={() => {
           setShouldShowModal(false)
         }}>
-          <h1>Test Heading</h1>
-          <Box>
-            <p>Hello World!</p>
-            <p>Test</p>
+          <Typography variant="h5" sx={{mt: 0, mb:1, pl:0.5, pr: 0.5, fontWeight: 'bold'}}>Test Heading</Typography>
+          <Box sx={{pl:1, pr: 1, mb: 1}}>
+            <Typography sx={{mt: 0, mb:0,}}>Hello World!</Typography>
+            <Typography sx={{mt: 0, mb:0}}>Test</Typography>
           </Box>
         </ControlledModal>
         <Button variant="contained" onClick={() => setShouldShowModal(!shouldShowModal)}>Show Modal</Button>
@@ -116,7 +184,18 @@ function App() {
         ItemComponent: the list item component to be used to build the list
       */}
       <Box sx={{display: 'flex', justifyContent: 'space-between', ml: 8, mr: 8}}>
+        {/* <List items={projects} resourceName="project" ItemComponent={ProjectCard} itemEventHandler={handleExpansion}/> */}
         <List items={projects} resourceName="project" ItemComponent={ProjectCard} />
+
+      </Box>
+
+      <Box sx={{mt:4}}>
+        <FormFlow currentIndex={currentIndex} onNext={onNext} completedFlow={()=>setCompletedFlow(true)}>
+          <StepOne goToNext={() => null}/>
+          <StepTwo goToNext={() => null}/>
+          {formFlowData.age >= 65 && <StepThree goToNext={() => null}/> }
+          <StepFour goToNext={() => null}/>
+        </FormFlow>
       </Box>
       
     </Box>
