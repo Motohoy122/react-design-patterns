@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import {useEffect} from 'react'
 const List = ({items, resourceName, ItemComponent}: {items: any, resourceName: string, ItemComponent: any}) => {
     useEffect(() => {
         console.log(items)

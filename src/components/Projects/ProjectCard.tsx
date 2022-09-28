@@ -12,7 +12,7 @@ import Typography from '@mui/material/Typography';
 const ProjectCard = ({project, itemEventHandler}: {project: any, itemEventHandler: any}) => {
     const [expandAccordion, setExpandAccordion] = useState(-1)
     return (
-        <Card key={project.id} sx={{ maxWidth: 300, height: 'fit-content'}}>
+        <Card key={project.id} sx={{ maxWidth: 275, height: 'fit-content'}}>
             <CardContent sx={{pb: 0, textAlign: 'left'}} 
                 // onClick={() => {
                 //     setExpandAccordion(expandAccordion === project.id? -1 : project.id)

@@ -1,12 +1,14 @@
-import React, {useState, useEffect} from 'react';
+import {useState, useEffect} from 'react';
+// Import components
 import ControlledModal from './components/LayoutComponents/ControlledModal';
-import FormFlow from './components/FormComponents/FormFlow';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import SideNavbar from './components/LayoutComponents/SideNavbar'
 import List from './components/LayoutComponents/List'
+import WaveDivider from './components/LayoutComponents/WaveDivider';
 import ProjectCard from './components/Projects/ProjectCard'
-import './App.css';
-import { Typography } from '@mui/material';
+import ExampleFormFlow from './components/Examples/ExampleFormFlow';
+
+// Imports for MUI
+import { Typography, Box, Button } from '@mui/material';
 
 const projects = [
   {
@@ -80,84 +82,17 @@ const projects = [
   }
 ]
 
-// Psuedo info for Form Flow
-const StepOne = ({goToNext}:{goToNext: any}) => (
-  <>
-    <Typography variant="h3" component="div">
-      Step 1
-    </Typography>
-    <Button onClick={() => goToNext({name: 'John Doe'})}>Next</Button>
-  </>
-)
-
-const StepTwo = ({goToNext}:{goToNext: any}) => (
-  <>
-    <Typography variant="h3" component="div">
-      Step 2
-    </Typography>
-    <Button onClick={() => goToNext({age: 100})}>Next</Button>
-  </>
-)
-
-const StepThree = ({goToNext}:{goToNext: any}) => (
-  <>
-    <Typography variant="h3" component="div">
-      Congrats, you are old enough!
-    </Typography>
-    <Button onClick={() => goToNext({})}>Next</Button>
-  </>
-)
-
-const StepFour = ({goToNext}:{goToNext: any}) => (
-  <>
-    <Typography variant="h3" component="div">
-      Step 4
-    </Typography>
-    <Button onClick={() => goToNext({})}>Next</Button>
-  </>
-)
-
 function App() {
-
   // Modal State
   const [shouldShowModal, setShouldShowModal] = useState(false)
 
-  // Flow Form State
-  const [formFlowData, setFormFlowData] = useState<{name: string, age: number, eyeColor: string}>({name:'', age:0, eyeColor: 'blue'})
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [completedFlow, setCompletedFlow] = useState(false)
-
-  useEffect(() => {
-      if(completedFlow) {
-        onFinal()
-        setCompletedFlow(false)
-      }
-      
-  },[completedFlow])
-
-  // Flow Form indexing and form data handling
-  const onNext = (stepData:any) => {
-    setFormFlowData({...formFlowData, ...stepData})
-    setCurrentIndex(currentIndex + 1)
-  }
-
-  // Flow Form submission. Add any submission actions in the onFinal event handler
-  const onFinal = () => {
-    alert(`You have completed the form! \nName: ${formFlowData.name} \nAge: ${formFlowData.age} \nEye-Color: ${formFlowData.eyeColor}`)
-
-    setTimeout(()=>{
-      alert('resetting the form')
-      setCurrentIndex(0)
-    },3000)
-  }
-
-  console.log("Completed Flow ", completedFlow)
-
   return (
-    <Box sx={{bgcolor: '#659DBD', height: '100vh', overflow: 'auto', textAlign: 'center',}}>
-      <Box sx={{ mb: 4, }}>
-        <h1>Useful Components</h1> 
-
+    <Box sx={{  display: 'flex', width:'100%', bgcolor: '#659DBD', height: '100vh', overflow: 'auto', textAlign: 'center', }}>
+      <SideNavbar />
+      <Box sx={{position: 'relative', width: '100%', overflowX: 'hidden'}}>
+      <Box sx={{height: '20vh', mb: 2, width: '100%', ml: 'auto', mr: 'auto',}}>
+        <Typography variant="h3" sx={{mt: 2, mb: 2}}>Useful Components</Typography> 
+        
         {/* 
           Controlled Modal ------------
           shouldShow: boolean passed on whether or not to show the modal
@@ -179,33 +114,24 @@ function App() {
       </Box>
       
       {/* 
+        ------- 
         items: prop is an array that is to be iterated over
         resourceName: prop of the list item that is getting passed
         ItemComponent: the list item component to be used to build the list
       */}
-      <Box sx={{display: 'flex', justifyContent: 'space-between', ml: 8, mr: 8}}>
+      <Box sx={{position: 'relative', width:'100%', height: '80vh', display: 'flex', justifyContent: 'space-between', }}>
         {/* <List items={projects} resourceName="project" ItemComponent={ProjectCard} itemEventHandler={handleExpansion}/> */}
-        <List items={projects} resourceName="project" ItemComponent={ProjectCard} />
+        <Box sx={{width:'100%', display: 'flex', justifyContent: 'space-between', ml: 2, mr: 2, }}>
+          <List items={projects} resourceName="project" ItemComponent={ProjectCard} />
+        </Box>
 
+        
+        <WaveDivider />
+        
       </Box>
-
-      <Box sx={{mt:4}}>
-        {/* 
-          currentIndex: the index in the array of children. Keeps track of what form the user is on
-          
-          onNext: a function that is defined in the parent, allowing the user to move to the next form and store data
-          this function can be defined uniquely for each FormFlow
-
-          completedFlow: a function that is passed into a useEffect hook in FormFlow to dictate when the form flow has been
-          completed. On completion, the user can decide what to do with the data. In this app I utilize it in the App.js useEffect
-          hook
-        */}
-        <FormFlow currentIndex={currentIndex} onNext={onNext} completedFlow={()=>setCompletedFlow(true)}>
-          <StepOne goToNext={() => null}/>
-          <StepTwo goToNext={() => null}/>
-          {formFlowData.age >= 65 && <StepThree goToNext={() => null}/> }
-          <StepFour goToNext={() => null}/>
-        </FormFlow>
+      <Box sx={{width: '100%', minHeight: '50%', bgcolor: '#ffff', pt: 2, pb: 2}}>
+          <ExampleFormFlow />
+      </Box>
       </Box>
       
     </Box>

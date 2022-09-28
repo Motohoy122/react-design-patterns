@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { statSync } from 'fs'
 import {useState, useEffect} from 'react'
 
 const capitalize = (str: string) => str.charAt(0).toUpperCase + str.slice(1)
