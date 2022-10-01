@@ -6,9 +6,10 @@ import List from './components/LayoutComponents/List'
 import WaveDivider from './components/LayoutComponents/WaveDivider';
 import ProjectCard from './components/Projects/ProjectCard'
 import ExampleFormFlow from './components/Examples/ExampleFormFlow';
+import FormLayout from './components/LayoutComponents/FormLayout';
 
 // Imports for MUI
-import { Typography, Box, Button } from '@mui/material';
+import { TextField, Typography, Box, Button } from '@mui/material';
 
 const projects = [
   {
@@ -158,7 +159,17 @@ function App() {
       </Box>
       <Box sx={{width: '100%', minHeight: '50%', bgcolor: '#ffff', pt: 2, pb: 2}}>
           <ExampleFormFlow />
+
+          <Box sx={{display: 'flex', width: '70%', ml: 'auto', mr: 'auto', mt: 4}}>
+            <FormLayout formTitle='Form Part 1' headerArr={[{id: 'builder', label: 'Builder', value: 'B1'}, {id: 'jobName', label: 'Job Name', value: 'J1'}, {id: 'supervisor', label: 'Supervisor', value: 'super 1'}]}>
+                <TextField id="lotNumbers" label="Lot Numbers" variant="outlined" />
+                <TextField id="slabType" label="Slab Type" variant="outlined" />
+                <TextField id="startDate" label="Start Date" variant="outlined" />
+            </FormLayout>
+          </Box>
+              
       </Box>
+      
       </Box>
       
     </Box>
