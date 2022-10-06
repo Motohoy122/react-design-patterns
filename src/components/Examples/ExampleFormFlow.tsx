@@ -1,5 +1,9 @@
 import {useEffect, useState} from 'react'
 import FormFlow from '../FormComponents/FormFlow'
+import FormPart1 from './FormPart1';
+import FormPart2 from './FormPart2';
+import FormPart3 from './FormPart3';
+
 import { Typography, Box, Button } from '@mui/material';
 
 // Psuedo info for Form Flow
@@ -12,14 +16,14 @@ const StepOne = ({goToNext}:{goToNext: any}) => (
     </>
   )
   
-  const StepTwo = ({goToNext}:{goToNext: any}) => (
-    <>
-      <Typography variant="h3" component="div">
-        Step 2
-      </Typography>
-      <Button onClick={() => goToNext({age: 100})}>Next</Button>
-    </>
-  )
+  // const StepTwo = ({goToNext}:{goToNext: any}) => (
+  //   <>
+  //     <Typography variant="h3" component="div">
+  //       Step 2
+  //     </Typography>
+  //     <Button onClick={() => goToNext({age: 100})}>Next</Button>
+  //   </>
+  // )
   
   const StepThree = ({goToNext}:{goToNext: any}) => (
     <>
@@ -41,7 +45,7 @@ const StepOne = ({goToNext}:{goToNext: any}) => (
 
 const ExampleFormFlow = () => {
     // Flow Form State
-    const [formFlowData, setFormFlowData] = useState<{name: string, age: number, eyeColor: string}>({name:'', age:0, eyeColor: 'blue'})
+    const [formFlowData, setFormFlowData] = useState({})
     const [currentIndex, setCurrentIndex] = useState(0)
     const [completedFlow, setCompletedFlow] = useState(false)
 
@@ -52,7 +56,16 @@ const ExampleFormFlow = () => {
     }
   // Flow Form submission. Add any submission actions in the onFinal event handler
   const onFinal = () => {
-    alert(`You have completed the form! \nName: ${formFlowData.name} \nAge: ${formFlowData.age} \nEye-Color: ${formFlowData.eyeColor}`)
+    const formKeys = Object.keys(formFlowData)
+    const formValues = Object.values(formFlowData)
+    alert(`You have completed the form! Here is your data: 
+      \n ${formKeys[0]}: ${formValues[0]} 
+      \n ${formKeys[1]}: ${formValues[1]} 
+      \n ${formKeys[2]}: ${formValues[2]} 
+      \n ${formKeys[3]}: ${formValues[3]}
+      \n ${formKeys[4]}: ${formValues[4]}
+      \n ${formKeys[5]}: ${formValues[5]}
+    `)
 
     setTimeout(()=>{
       alert('resetting the form')
@@ -68,7 +81,7 @@ const ExampleFormFlow = () => {
       
   },[completedFlow, onFinal])
   return (
-    <Box sx={{mt:4}}>
+    <>
         {/* 
           currentIndex: the index in the array of children. Keeps track of what form the user is on
 
@@ -80,13 +93,13 @@ const ExampleFormFlow = () => {
           hook
         */}
         <FormFlow currentIndex={currentIndex} onNext={onNext} completedFlow={()=>setCompletedFlow(true)}>
-          <StepOne goToNext={() => null}/>
-          <StepTwo goToNext={() => null}/>
-          {formFlowData.age >= 65 && <StepThree goToNext={() => null}/> }
-          <StepFour goToNext={() => null}/>
+          <FormPart1 goToNext={() => null}/>
+          <FormPart2 goToNext={() => null}/>
+          {/* {formFlowData.age >= 65 && <StepThree goToNext={() => null}/> } */}
+          <FormPart3 goToNext={() => null}/>
         </FormFlow>
        
-      </Box>
+      </>
   )
 }
 

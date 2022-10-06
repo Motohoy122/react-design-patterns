@@ -7,6 +7,7 @@ import WaveDivider from './components/LayoutComponents/WaveDivider';
 import ProjectCard from './components/Projects/ProjectCard'
 import ExampleFormFlow from './components/Examples/ExampleFormFlow';
 import FormLayout from './components/LayoutComponents/FormLayout';
+import FormPart1 from './components/Examples/FormPart1';
 
 // Imports for MUI
 import { TextField, Typography, Box, Button } from '@mui/material';
@@ -110,6 +111,7 @@ function App() {
   // Modal State
   const [shouldShowModal, setShouldShowModal] = useState(false)
 
+
   return (
     <Box sx={{  display: 'flex', width: '100vw', bgcolor: '#659DBD', height: '100vh', overflowY: 'auto', textAlign: 'center', boxSizing: 'border-box', overflowX: 'hidden'}}>
       <Box sx={{width: 'fit-content'}}>
@@ -158,14 +160,11 @@ function App() {
         
       </Box>
       <Box sx={{width: '100%', minHeight: '50%', bgcolor: '#ffff', pt: 2, pb: 2}}>
-          <ExampleFormFlow />
+          
 
           <Box sx={{display: 'flex', width: '70%', ml: 'auto', mr: 'auto', mt: 4}}>
-            <FormLayout formTitle='Form Part 1' headerArr={[{id: 'builder', label: 'Builder', value: 'B1'}, {id: 'jobName', label: 'Job Name', value: 'J1'}, {id: 'supervisor', label: 'Supervisor', value: 'super 1'}]}>
-                <TextField id="lotNumbers" label="Lot Numbers" variant="outlined" />
-                <TextField id="slabType" label="Slab Type" variant="outlined" />
-                <TextField id="startDate" label="Start Date" variant="outlined" />
-            </FormLayout>
+            {/* <FormPart1 /> */}
+            <ExampleFormFlow />
           </Box>
               
       </Box>
